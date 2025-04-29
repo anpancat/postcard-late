@@ -3,7 +3,7 @@ import { db, collection, addDoc } from "./firebaseConfig"; // firebase 인증 �
 
 const getReturnURL = () => {
   const params = new URLSearchParams(window.location.search);
-  return params.get("return") || "https://kupsychology.qualtrics.com/jfe/form/SV_3UHLDLvsQJNq0fQ";
+  return params.get("return") || "https://kupsychology.qualtrics.com/jfe/form/SV_0dq8or8LplYSVee";
 };
 
 export default function WritingTest() {
