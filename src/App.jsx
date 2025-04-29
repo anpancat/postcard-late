@@ -1,7 +1,7 @@
-import WritingTest120 from "./ko-WritingTest120";
+import WritingTest from "./ko-WritingTest";
 
 function App() {
-  return <WritingTest120 />;
+  return <WritingTest/>;
 }
 
 export default App;

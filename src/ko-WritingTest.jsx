@@ -11,18 +11,18 @@ export default function WritingTest() {
   const [wordCount, setWordCount] = useState(0);
   const requiredWords = ["친구", "놀란", "강아지들"];
   const [displayText, setDisplayText] = useState("");
-  const predefinedText = "부드러운 바람이 흙과 비 냄새를 실어 나르며 조용한 거리를 스며들었고, 멀리서 도시의 희미한 소음이 들려왔습니다. 가로등 불빛이 부드럽게 깜빡이며 긴 그림자를 길게 드리웠습니다."; // 미리 정해진 문장 삽입
+  const predefinedText = "부드러운 바람이 흙과 비 냄새를 실어 나르며 조용한 거리를 스며들었고, 멀리서 도시의 희미한 소음이 들려왔다. 흐릿한 가로등 불빛이 부드럽게 깜빡이며 도로에 긴 그림자를 길게 드리웠다."; // 미리 정해진 문장 삽입
   const [preTextIndex, setPreTextIndex] = useState(0);
   const [isPreTextTyping, setIsPreTextTyping] = useState(""); // 타이핑 중인 글자 저장
   const [preTextTyping, setPreTextTyping] = useState("");   // 타이핑 중인 글자
   const [originalText, setOriginalText] = useState("");     // 기존 작성 글 보존
 
   const typingText = "...DraftMind가 입력중 입니다..."; //입력중
-  const hello = "안녕하세요! 저는 'DraftMind'입니다. 글쓰기를 도와드리기 위해 만들어진 AI입니다.\n당신의 글쓰기를 돕게 되어 기쁩니다!"; // 인사말
+  const hello = "안녕하세요! 저는 글쓰기를 도와주기 위해 만들어진 AI 'DraftMind'입니다. \n당신은 지금 이야기를 창작중인 것으로 보이네요. 당신의 글쓰기를 돕게 되어 기뻐요!"; // 인사말
   const level = "통상적인 글쓰기 원칙과 스토리텔링 전략에 기반하여, 일반적인 글쓰기 상황에 적용될만한 도움을 제공해드릴게요."; // 개인화 수준 명시(낮은 개인화)
-  const fullText = "스토리를 더욱 몰입감 있게 만들기 위해서는 서두를 좀 더 자세히 묘사하는 것이 도움이 됩니다.\n아래에 예시 문장을 드릴 테니 참고해보세요!"; // AI 글쓰기 제안문구
-  const examplePhrase = ["부드러운 바람", "흙과 비 냄새", "조용한 거리", "도시의 희미한 소음", "가로등 불빛", "긴 그림자"];  // 예시 구문들
-  const exampleKeywords = ["부드러운", "바람", "흙", "비", "냄새", "조용한", "거리", "도시", "희미한", "소음", "가로등", "불빛", "긴", "그림자"]; // 예시 단어들
+  const fullText = "스토리를 더욱 몰입감 있게 만들기 위해서는 서두를 좀 더 자세히 묘사하는 것이 도움이 됩니다. 그렇게 하면 이야기의 몰입감이 올라갈 거예요.\n예시 문장을 드릴 테니 참고해보세요!"; // AI 글쓰기 제안문구
+  const examplePhrase = ["부드러운 바람", "흙과 비 냄새", "조용한 거리", "도시의 희미한 소음", "흐릿한 가로등 불빛", "긴 그림자"];  // 예시 구문들
+  const exampleKeywords = ["부드러운", "바람", "흙", "비", "냄새", "조용한", "거리", "도시", "희미한", "소음", "흐릿한", "가로등", "불빛", "긴", "그림자"]; // 예시 단어들
 
   const [typingIndex, setTypingIndex] = useState(0);
   const [helloIndex, setHelloIndex] = useState(0);
@@ -58,8 +58,8 @@ export default function WritingTest() {
     // 🔥 단어 수 계산 (입력된 텍스트가 비어있으면 0으로 설정)
     let words = newText.trim().length === 0 ? [] : newText.trim().split(/\s+/);
   
-    // ✅ 2단어 이상 입력된 경우에만 단어 반복 검사 실행
-    if (words.length > 1) {
+    // ✅ 5단어 이상 입력된 경우에만 단어 반복 검사 실행
+    if (words.length > 5) {
       // 🔥 같은 단어 반복 확인 및 하나만 입력 방지
       const wordCounts = {};
       words.forEach((word) => {
@@ -82,8 +82,9 @@ export default function WritingTest() {
     
   
     // 🔥 필수 단어 포함 여부 확인
-    const missing = requiredWords.filter((word) =>
-      !words.some((w) => w.replace(/[.,!?]/g, "") === word) // 🔥 문장부호 제거 후 비교
+    const rootWords = ["친구", "놀란", "강아지들"];
+    const missing = rootWords.filter((requiredRoot) =>
+      !words.some((w) => w.replace(/[.,!?]/g, "").includes(requiredRoot)) // 🔥 문장부호 제거 후 비교
     );
   
     setMissingWords(missing);
@@ -98,7 +99,7 @@ export default function WritingTest() {
   
 
   useEffect(() => {
-    if (wordCount >= 80 && !hasTriggeredOnce) {
+    if (wordCount >= 20 && !hasTriggeredOnce) {
       setIsInputDisabled(true); // ✅ 입력창 비활성화 추가
 
       setDisplayText("");
@@ -122,7 +123,7 @@ export default function WritingTest() {
       const timer = setTimeout(() => {
         setDisplayText(typingText.slice(0, typingIndex + 1));
         setTypingIndex(typingIndex + 1);
-      }, 50);
+      }, 100);
       return () => clearTimeout(timer);
     }
 
@@ -141,7 +142,7 @@ export default function WritingTest() {
       const timer = setTimeout(() => {
         setDisplayText(hello.slice(0, helloIndex + 1));
         setHelloIndex(helloIndex + 1);
-      }, 25);
+      }, 40);
       return () => clearTimeout(timer);
     }
 
@@ -160,7 +161,7 @@ export default function WritingTest() {
       const timer = setTimeout(() => {
         setDisplayText(level.slice(0, levelIndex + 1));
         setLevelIndex(levelIndex + 1);
-      }, 25);
+      }, 45);
       return () => clearTimeout(timer);
     }
 
@@ -179,7 +180,7 @@ export default function WritingTest() {
       const timer = setTimeout(() => {
         setDisplayText(fullText.slice(0, fullTextIndex + 1));
         setFullTextIndex(fullTextIndex + 1);
-      }, 20);
+      }, 45);
 
       return () => clearTimeout(timer);
     }
@@ -187,7 +188,7 @@ export default function WritingTest() {
       setTimeout(() => {
         setIsFullTextTyping(false);
         setIsPreTextTyping(true);   // ✅ 여기서 타이핑 시작
-      }, 2000);
+      },2000);
     }
   }, [fullTextIndex, isFullTextTyping]);
 
@@ -203,7 +204,7 @@ export default function WritingTest() {
       const timer = setTimeout(() => {
         setPreTextTyping(predefinedText.slice(0, preTextIndex + 1));
         setPreTextIndex(preTextIndex + 1);
-      }, 50);  // 타이핑 속도 조절
+      }, 40);  // 타이핑 속도 조절
   
       return () => clearTimeout(timer);
     }
@@ -267,12 +268,12 @@ export default function WritingTest() {
 
     try {
       // 예시 구문 매칭 개수 및 비율 계산
-      const matchedPhrase = examplePhrase.filter(phrase => lowerText.includes(phrase)); // 대소문자 구분없이 매칭
+      const matchedPhrase = examplePhrase.filter(phrase => text.trim().includes(phrase)); // 대소문자 구분없이 매칭
       const examplePhraseCount = matchedPhrase.length; // 예시구문 매칭 개수
       const examplePhraseRatio = +(examplePhraseCount / examplePhrase.length).toFixed(2); // 예시구문 반영비율
 
       //예시 단어 매칭 개수 및 비율 계산
-      const textWords = lowerText.match(/\b\w+\b/g) || []; // 텍스트에서 단어만 추출 (문장부호 제거됨)
+      const textWords = text.trim().match(/[가-힣a-zA-Z0-9]+/g) || []; // 텍스트에서 단어만 추출 (문장부호 제거됨)
       const matchedWords = exampleKeywords.filter(keyword =>
         textWords.includes(keyword)
       ); 
@@ -296,7 +297,7 @@ export default function WritingTest() {
       const formattedKoreaTime = formatter.format(koreaTime);
 
       //firebase에 UID 포함하여 데이터에 저장
-      await addDoc(collection(db, "K-writingData120"), {
+      await addDoc(collection(db, "K-writingData"), {
         prolificId: prolificId.trim(), // ✨ prolific ID 저장
         text: text.trim(),
         wordCount: wordCount,
@@ -423,7 +424,7 @@ export default function WritingTest() {
               .replaceAll(", ", ",\u00A0") // 쉼표 뒤 공백을 불간섭 공백으로 대체하여 줄바꿈 방지
               .split("\n")
               .map((line, index) => (
-                <p key={index} style={{ fontWeight: "bold", fontSize: "15px", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
+                <p key={index} style={{ fontWeight: "bold", fontSize: "18px", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
                   {line}
                 </p>
               ))}
