@@ -74,7 +74,7 @@ export default function WritingTest() {
   
       if (overusedWords.length > 0) {
         words = words.filter((word) => !overusedWords.includes(word));
-        warningMessages.push('동일 글자의 반복이 감지되었습니다: ${overusedWords.join(", ")}');
+        warningMessages.push(`동일 글자의 반복이 감지되었습니다: ${overusedWords.join(", ")}`);
       }
   
     } 
