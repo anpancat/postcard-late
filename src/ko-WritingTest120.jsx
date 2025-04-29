@@ -9,20 +9,20 @@ const getReturnURL = () => {
 export default function WritingTest() {
   const [text, setText] = useState("");
   const [wordCount, setWordCount] = useState(0);
-  const requiredWords = ["friend", "surprised", "dogs"];
+  const requiredWords = ["친구", "놀란", "강아지들"];
   const [displayText, setDisplayText] = useState("");
-  const predefinedText = "A gentle breeze carried the scent of earth and rain, weaving through the quiet streets as the distant hum of city life echoed in the background. The dim glow of streetlights flickered softly, casting long shadows that stretched across the pavement."; // 미리 정해진 문장 삽입
+  const predefinedText = "부드러운 바람이 흙과 비 냄새를 실어 나르며 조용한 거리를 스며들었고, 멀리서 도시의 희미한 소음이 들려왔습니다. 가로등 불빛이 부드럽게 깜빡이며 긴 그림자를 길게 드리웠습니다."; // 미리 정해진 문장 삽입
   const [preTextIndex, setPreTextIndex] = useState(0);
   const [isPreTextTyping, setIsPreTextTyping] = useState(""); // 타이핑 중인 글자 저장
   const [preTextTyping, setPreTextTyping] = useState("");   // 타이핑 중인 글자
   const [originalText, setOriginalText] = useState("");     // 기존 작성 글 보존
 
-  const typingText = "...DraftMind is typing..."; //입력중
-  const hello = "Hello! I’m 'Draft Mind', an AI designed to help with writing. \n It looks like you’re crafting a story. I’d be happy to assist!"; // 인사말
-  const level = "Based on general writing principles and storytelling strategies, I will provide assistance that is generally suitable for writers like you."; // 개인화 수준 명시(낮은 개인화)
-  const fullText = "In general, to develop a story into a more engaging narrative, it would be beneficial to describe the introduction in more detail. This will enhance the immersion of the story. \n I'll give you an example sentence and apply it to your writing!"; // AI 글쓰기 제안문구
-  const examplePhrase = ["a gentle breeze", "the scent of earth and rain", "weaving through the quiet streets", "as the distant hum of city life", "echoed in the background", "the dim glow of streetlights", "flickered softly", "casting long shadows", "stretched across the pavement"];  // 예시 구문들
-  const exampleKeywords = ["gentle", "breeze", "carried", "scent", "earth", "rain", "weaving", "quiet", "streets", "distant", "hum", "city", "life", "echoed", "background", "dim", "glow", "streetlights", "flickered", "softly", "casting", "long", "shadows", "stretched", "pavement"]; // 예시 단어들
+  const typingText = "...DraftMind가 입력중 입니다..."; //입력중
+  const hello = "안녕하세요! 저는 'DraftMind'입니다. 글쓰기를 도와드리기 위해 만들어진 AI입니다.\n당신의 글쓰기를 돕게 되어 기쁩니다!"; // 인사말
+  const level = "통상적인 글쓰기 원칙과 스토리텔링 전략에 기반하여, 일반적인 글쓰기 상황에 적용될만한 도움을 제공해드릴게요."; // 개인화 수준 명시(낮은 개인화)
+  const fullText = "스토리를 더욱 몰입감 있게 만들기 위해서는 서두를 좀 더 자세히 묘사하는 것이 도움이 됩니다.\n아래에 예시 문장을 드릴 테니 참고해보세요!"; // AI 글쓰기 제안문구
+  const examplePhrase = ["부드러운 바람", "흙과 비 냄새", "조용한 거리", "도시의 희미한 소음", "가로등 불빛", "긴 그림자"];  // 예시 구문들
+  const exampleKeywords = ["부드러운", "바람", "흙", "비", "냄새", "조용한", "거리", "도시", "희미한", "소음", "가로등", "불빛", "긴", "그림자"]; // 예시 단어들
 
   const [typingIndex, setTypingIndex] = useState(0);
   const [helloIndex, setHelloIndex] = useState(0);
@@ -55,25 +55,15 @@ export default function WritingTest() {
   
     let warningMessages = []; // 여러 개의 경고 메시지를 저장할 배열
   
-    // 🔥 영어 여부 검사 (영어 이외 문자가 포함되면 경고)
-    const englishPattern = new RegExp("^[a-zA-Z0-9\\s.,!\"\'\\$%&@#\\^*(){}\\[\\]<>?=:_+\\-;\\\\|/~`\\/]*$");
-    const containsKorean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(newText); // 한글 포함 여부 확인
-  
-    if (!englishPattern.test(newText) || containsKorean) {
-      warningMessages.push("Please write in English. Non-English characters are detected.");
-      setWarning(warningMessages); 
-      return; // ✅ 여기서 종료
-    }
-  
     // 🔥 단어 수 계산 (입력된 텍스트가 비어있으면 0으로 설정)
     let words = newText.trim().length === 0 ? [] : newText.trim().split(/\s+/);
   
     // ✅ 2단어 이상 입력된 경우에만 단어 반복 검사 실행
     if (words.length > 1) {
-      // 🔥 같은 단어 반복 확인 및 알파벳 하나만 입력 방지
+      // 🔥 같은 단어 반복 확인 및 하나만 입력 방지
       const wordCounts = {};
       words.forEach((word) => {
-        word = word.toLowerCase().replace(/[.,!?]/g, ""); // 🔥 문장부호 제거 후 단어 카운트
+        word = word.replace(/[.,!?]/g, ""); // 🔥 문장부호 제거 후 단어 카운트
         wordCounts[word] = (wordCounts[word] || 0) + 1;
       });
   
@@ -84,22 +74,22 @@ export default function WritingTest() {
   
       if (overusedWords.length > 0) {
         words = words.filter((word) => !overusedWords.includes(word));
-        warningMessages.push(`Too many repeated words: ${overusedWords.join(", ")}`);
+        warningMessages.push('동일 글자의 반복이 감지되었습니다: ${overusedWords.join(", ")}');
       }
   
     } 
       setWordCount(words.length); // 1단어만 입력되었을 때도 정상적으로 카운트
     
   
-    // 🔥 필수 단어 포함 여부 확인 (대소문자 구분 없이 검사)
+    // 🔥 필수 단어 포함 여부 확인
     const missing = requiredWords.filter((word) =>
-      !words.some((w) => w.toLowerCase().replace(/[.,!?]/g, "") === word.toLowerCase()) // 🔥 문장부호 제거 후 비교
+      !words.some((w) => w.replace(/[.,!?]/g, "") === word) // 🔥 문장부호 제거 후 비교
     );
   
     setMissingWords(missing);
 
     if (missing.length > 0) {
-      warningMessages.push(`The following words must be included: ${missing.join(", ")}`);
+      warningMessages.push(`다음 제시어가 반드시 들어가야 합니다: ${missing.join(", ")}`);
     }
   
     // 🔥 중복 제거 후 경고 메시지 설정
@@ -251,47 +241,41 @@ export default function WritingTest() {
 
     // 단어 수 체크
     if (wordCount < 100) {
-      errorMessages.push("❌ Word count is too low (minimum 100 words).");
+      errorMessages.push("❌ 단어 수가 부족합니다 (최소 100 단어).");
     }
     if (wordCount > 150) {
-      errorMessages.push("❌ Word count exceeds the limit (maximum 150 words).");
+      errorMessages.push("❌ 단어 수가 초과되었습니다 (최대 150 단어).");
     }
 
-    // 영어 여부 검사
-    const englishPattern = new RegExp("^[a-zA-Z0-9\\s.,!\"'\\$%&@#\\^*(){}\\[\\]<>?=:_+\\-;\\\\|/~`\\/]*$");
-    if (!englishPattern.test(text)) {
-      errorMessages.push("❌ Your text contains non-English characters.");
-    }
 
     // 필수 단어 포함 여부 확인
     if (missingWords.length > 0) {
-      errorMessages.push(`❌ The following words must be included: ${missingWords.join(", ")}`);
+      errorMessages.push(`❌ 다음 제시어가 반드시 들어가야 합니다: ${missingWords.join(", ")}`);
     }
 
     // ✨ Qualtrics ID 미입력 시 에러 메시지 추가
     if (!prolificId.trim()) {
-      errorMessages.push("❌ Please enter your Prolific ID.");
+      errorMessages.push("❌ SONA ID를 적어주세요.");
     }
 
 
     // 🔥 오류 메시지가 하나라도 있으면 제출 불가
     if (errorMessages.length > 0) {
-      alert(`⚠️ Submission failed for the following reasons:\n\n${errorMessages.join("\n")}`);
+      alert(`⚠️ 다음과 같은 이유로 제출이 실패되었습니다:\n\n${errorMessages.join("\n")}`);
       return;
     }
 
     try {
       // 예시 구문 매칭 개수 및 비율 계산
-      const lowerText = text.toLowerCase()
-      const matchedPhrase = examplePhrase.filter(phrase => lowerText.includes(phrase.toLowerCase())); // 대소문자 구분없이 매칭
+      const matchedPhrase = examplePhrase.filter(phrase => lowerText.includes(phrase)); // 대소문자 구분없이 매칭
       const examplePhraseCount = matchedPhrase.length; // 예시구문 매칭 개수
       const examplePhraseRatio = +(examplePhraseCount / examplePhrase.length).toFixed(2); // 예시구문 반영비율
 
       //예시 단어 매칭 개수 및 비율 계산
       const textWords = lowerText.match(/\b\w+\b/g) || []; // 텍스트에서 단어만 추출 (문장부호 제거됨)
       const matchedWords = exampleKeywords.filter(keyword =>
-        textWords.includes(keyword.toLowerCase())
-      ); // 대소문자 구분없이 매칭
+        textWords.includes(keyword)
+      ); 
 
       const exampleWordCount = matchedWords.length; // 예시단어 매칭 개수
       const exampleWordRatio = +(exampleWordCount / exampleKeywords.length).toFixed(2); // 예시단어 반영비율
@@ -312,7 +296,7 @@ export default function WritingTest() {
       const formattedKoreaTime = formatter.format(koreaTime);
 
       //firebase에 UID 포함하여 데이터에 저장
-      await addDoc(collection(db, "writingData120"), {
+      await addDoc(collection(db, "K-writingData120"), {
         prolificId: prolificId.trim(), // ✨ prolific ID 저장
         text: text.trim(),
         wordCount: wordCount,
@@ -325,7 +309,7 @@ export default function WritingTest() {
         examplePhrases: matchedPhrase.join(", ") // 예시구문 매칭된 구문들
       });
 
-      alert("✅ Your writing has been submitted!");
+      alert("✅ 작성하신 글이 성공적으로 제출되었습니다!");
       setText("");
       setWordCount(0);
       setWarning("");
@@ -338,8 +322,8 @@ export default function WritingTest() {
       window.location.href = getReturnURL();
 
     } catch (error) {
-      console.error("🔥 An error occurred while saving data:", error.message);
-      alert(`🔥 An error occurred while saving data: ${error.message}`);
+      console.error("🔥 데이터를 저장하는 데 문제가 발생했습니다:", error.message);
+      alert(`🔥 데이터를 저장하는 데 문제가 발생했습니다: ${error.message}`);
     }
   };
 
@@ -347,30 +331,30 @@ export default function WritingTest() {
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
           
       {/* 사용자가 글 작성하는 영역 */}
-      <div style={{ width: "80%", textAlign: "left", marginBottom: "10px" }}> 
-        <h1>📝 Short Writing Task</h1>
-        <p>Write a prompt (100-150 words) about the following words:</p>
-        <p style={{ color: "red", fontWeight: "bold" }}>{requiredWords.join(", ")}</p>
-        <p className="mt-2">Word Count: {wordCount}</p>
+      <div style={{ width: "80%", textAlign: "left", marginBottom: "10px", fontSize: "18px" }}> 
+        <h1>📝 짧은 글 짓기</h1>
+        <p>아래 프롬프트에 글을 작성해주세요 (100-150 단어) 다음 제시어를 포함해야 합니다:</p>
+        <p style={{ color: "red", fontWeight: "bold", fontSize: "20px" }}>{requiredWords.join(", ")}</p>
+        <p className="mt-2">단어 수: {wordCount}</p>
 
         <textarea
           style={{ width: "100%", height: "200px", padding: "10px", border: "1px solid #ccc", fontSize: "16px" }}
           value={isPreTextTyping ? preTextTyping + originalText : text}
           onChange={(e) => handleChange(e)}
-          placeholder="Start writing here..."
+          placeholder="여기에 글을 작성해주세요..."
           disabled={isInputDisabled} // ✅ 비활성화 반영
         />
 
         {showInputLockMessage && (
           <p style={{ color: "gray", fontWeight: "bold", fontSize: "14px", marginTop: "5px" }}>
-            ✨ DraftMind is writing. Please wait for seconds...
+            ✨ DraftMind가 입력중입니다. 잠시만 기다려주세요...
           </p>
         )}
       </div>
 
       {/* ✨ Prolific ID 입력 필드 추가 */}
       <div style={{ width: "80%", textAlign: "left", marginBottom: "10px" }}>
-        <label style={{ fontWeight: "bold", marginRight: "10px" }}>Prolific ID:</label>
+        <label style={{ fontWeight: "bold", marginRight: "10px" }}>SONA ID:</label>
         <input
           type="text"
           value={prolificId}
@@ -399,13 +383,13 @@ export default function WritingTest() {
         }}>
 
         {/* 제목 */}
-        <h2 style={{ marginTop: "3px", textAlign: "center" }}> 
-          <em>AI DraftMind</em>🪶 Writing Suggestion
+        <h2 style={{ marginTop: "3px", textAlign: "center", fontSize: "30px" }}> 
+          <em>AI DraftMind</em>🪶
         </h2>
        
         {/* 설명 */}
-        <p style={{ marginBottom: "30px", fontSize: "12px", textAlign: "center", color: "gray" }}>
-          DraftMind is an AI that assists with writing by reading your text and providing suggestions to help you improve your writing.
+        <p style={{marginTop: "0px", marginBottom: "30px", fontSize: "16px", textAlign: "center", color: "gray" }}>
+          DraftMind 는 당신이 작성한 글을 읽고, 당신의 글을 개선하는 데 도움을 주는 조언을 제공합니다.
         </p>
 
         {/* 본문 및 이미지 컨테이너 (병렬 배치) */}
@@ -455,8 +439,8 @@ export default function WritingTest() {
           </div>
         )}
 
-      <span style={{ marginTop: "10px", fontSize: "16px", color: "gray" }}>
-      🔔Please make sure to complete the survey after submitting.
+      <span style={{ marginTop: "10px", fontSize: "18px", color: "gray" }}>
+      🔔글을 제출한 후 반드시 설문을 완료해주세요.
       </span>
 
       {/* Submit 버튼 - 가장 아래로 배치 */}
@@ -464,9 +448,9 @@ export default function WritingTest() {
         onClick={handleSubmit} 
         style={{ 
           marginTop: "10px", padding: "12px 25px", backgroundColor: "#007bff", 
-          color: "white", border: "none", cursor: "pointer", fontSize: "16px", fontWeight: "bold"
+          color: "white", border: "none", cursor: "pointer", fontSize: "20px", fontWeight: "bold"
         }}>
-        Submit
+        제출하기
       </button>
 
     </div>

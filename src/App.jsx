@@ -1,4 +1,4 @@
-import WritingTest120 from "./WritingTest120";
+import WritingTest120 from "./ko-WritingTest120";
 
 function App() {
   return <WritingTest120 />;
