@@ -11,7 +11,7 @@ export default function WritingTest() {
   const [wordCount, setWordCount] = useState(0);
   const requiredWords = ["친구", "놀란", "강아지들"];
   const [displayText, setDisplayText] = useState("");
-  const predefinedText = "부드러운 바람이 흙과 비 냄새를 실어 나르며 조용한 거리를 스며들었고, 멀리서 도시의 희미한 소음이 들려왔다. 흐릿한 가로등 불빛이 부드럽게 깜빡이며 도로에 긴 그림자를 길게 드리웠다."; // 미리 정해진 문장 삽입
+  const predefinedText = "부드러운 바람이 흙과 비 냄새를 실어 나르며, 도시의 희미한 소음이 울려퍼지는 가운데 조용한 거리를 누비며 지나갔다. 흐릿한 가로등 불빛이 부드럽게 깜빡이며 도로를 따라 긴 그림자를 드리웠다. "; // 미리 정해진 문장 삽입
   const [preTextIndex, setPreTextIndex] = useState(0);
   const [isPreTextTyping, setIsPreTextTyping] = useState(""); // 타이핑 중인 글자 저장
   const [preTextTyping, setPreTextTyping] = useState("");   // 타이핑 중인 글자
@@ -21,8 +21,8 @@ export default function WritingTest() {
   const hello = "안녕하세요! 저는 글쓰기를 도와주기 위해 만들어진 AI 'DraftMind'입니다. \n당신은 지금 이야기를 창작중인 것으로 보이네요. 당신의 글쓰기를 돕게 되어 기뻐요!"; // 인사말
   const level = "통상적인 글쓰기 원칙과 스토리텔링 전략에 기반하여, 일반적인 글쓰기 상황에 적용될만한 도움을 제공해드릴게요."; // 개인화 수준 명시(낮은 개인화)
   const fullText = "스토리를 더욱 몰입감 있게 만들기 위해서는 서두를 좀 더 자세히 묘사하는 것이 도움이 됩니다. 그렇게 하면 이야기의 몰입감이 올라갈 거예요.\n예시 문장을 드릴 테니 참고해보세요!"; // AI 글쓰기 제안문구
-  const examplePhrase = ["부드러운 바람", "흙과 비 냄새", "조용한 거리", "도시의 희미한 소음", "흐릿한 가로등 불빛", "긴 그림자"];  // 예시 구문들
-  const exampleKeywords = ["부드러운", "바람", "흙", "비", "냄새", "조용한", "거리", "도시", "희미한", "소음", "흐릿한", "가로등", "불빛", "긴", "그림자"]; // 예시 단어들
+  const examplePhrase = ["부드러운 바람이", "흙과 비 냄새를", "실어 나르며", "도시의 희미한 소음이", "울려퍼지는 가운데", "조용한 거리를 누비며 지나갔다", "흐릿한 가로등 불빛이", "부드럽게 깜빡이며", "도로를 따라", "긴 그림자를 드리웠다"];  // 예시 구문들
+  const exampleKeywords = ["부드러운", "바람", "흙", "비", "냄새", "실어", "나르며", "도시", "희미한", "소음", "울려퍼지는", "조용한", "거리", "누비며", "지나갔다", "흐릿한", "가로등", "불빛", "부드럽게", "깜빡이며", "도로", "긴", "그림자", "드리웠다"]; // 예시 단어들
 
   const [typingIndex, setTypingIndex] = useState(0);
   const [helloIndex, setHelloIndex] = useState(0);
@@ -273,10 +273,10 @@ export default function WritingTest() {
       const examplePhraseRatio = +(examplePhraseCount / examplePhrase.length).toFixed(2); // 예시구문 반영비율
 
       //예시 단어 매칭 개수 및 비율 계산
-      const textWords = text.trim().match(/[가-힣a-zA-Z0-9]+/g) || []; // 텍스트에서 단어만 추출 (문장부호 제거됨)
+      const textWords = text.trim().match(/[가-힣]+/g) || [];
       const matchedWords = exampleKeywords.filter(keyword =>
-        textWords.includes(keyword)
-      ); 
+        textWords.some(word => word.includes(keyword))
+      );
 
       const exampleWordCount = matchedWords.length; // 예시단어 매칭 개수
       const exampleWordRatio = +(exampleWordCount / exampleKeywords.length).toFixed(2); // 예시단어 반영비율
