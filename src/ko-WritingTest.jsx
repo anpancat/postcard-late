@@ -9,9 +9,9 @@ const getReturnURL = () => {
 export default function WritingTest() {
   const [text, setText] = useState("");
   const [wordCount, setWordCount] = useState(0);
-  const requiredWords = ["친구", "놀란", "강아지들"];
+  const requiredWords = ["친구", "놀란", "강아지"];
   const [displayText, setDisplayText] = useState("");
-  const predefinedText = "부드러운 바람이 흙과 비 냄새를 실어 나르며, 도시의 희미한 소음이 울려퍼지는 가운데 조용한 거리를 누비며 지나갔다. 흐릿한 가로등 불빛이 부드럽게 깜빡이며 도로를 따라 긴 그림자를 드리웠다. "; // 미리 정해진 문장 삽입
+  const predefinedText = "따스한 햇살이 골목길을 비추고, 나뭇잎 사이로 부는 바람이 잔잔한 소리를 냈다. 담벼락에는 고양이가 졸고 있었고, 창문 너머로 김이 서린 찻잔이 보였다. 조용한 거리에 어울리지 않게 어디선가 작은 발소리가 들려오고, 고개를 들어 소리가 난 곳을 찾아 두리번거리자 멀리서 낯선 그림자를 발견했다. "; // 미리 정해진 문장 삽입
   const [preTextIndex, setPreTextIndex] = useState(0);
   const [isPreTextTyping, setIsPreTextTyping] = useState(""); // 타이핑 중인 글자 저장
   const [preTextTyping, setPreTextTyping] = useState("");   // 타이핑 중인 글자
@@ -21,8 +21,8 @@ export default function WritingTest() {
   const hello = "안녕하세요! 저는 글쓰기를 도와주기 위해 만들어진 AI 'DraftMind'입니다. \n당신은 지금 이야기를 창작중인 것으로 보이네요. 당신의 글쓰기를 돕게 되어 기뻐요!"; // 인사말
   const level = "통상적인 글쓰기 원칙과 스토리텔링 전략에 기반하여, 일반적인 글쓰기 상황에 적용될만한 도움을 제공해드릴게요."; // 개인화 수준 명시(낮은 개인화)
   const fullText = "스토리를 더욱 몰입감 있게 만들기 위해서는 서두를 좀 더 자세히 묘사하는 것이 도움이 됩니다. 그렇게 하면 이야기의 몰입감이 올라갈 거예요.\n예시 문장을 드릴 테니 참고해보세요!"; // AI 글쓰기 제안문구
-  const examplePhrase = ["부드러운 바람이", "흙과 비 냄새를", "실어 나르며", "도시의 희미한 소음이", "울려퍼지는 가운데", "조용한 거리를 누비며 지나갔다", "흐릿한 가로등 불빛이", "부드럽게 깜빡이며", "도로를 따라", "긴 그림자를 드리웠다"];  // 예시 구문들
-  const exampleKeywords = ["부드러운", "바람", "흙", "비", "냄새", "실어", "나르며", "도시", "희미한", "소음", "울려퍼지는", "조용한", "거리", "누비며", "지나갔다", "흐릿한", "가로등", "불빛", "부드럽게", "깜빡이며", "도로", "긴", "그림자", "드리웠다"]; // 예시 단어들
+  const examplePhrase = ["따스한 햇살이", "골목길을 비추고", "나뭇잎 사이로 부는 바람이", "잔잔한 소리를 냈다", "담벼락에는 고양이가 졸고 있었고", "창문 너머로", "김이 서린 찻잔이 보였다", "조용한 거리에", "어울리지 않게", "어디선가 작은 발소리가 들려오고", "고개를 들어", "소리가 난 곳을 찾아 두리번거리자", "멀리서 낯선 그림자를 발견했다"];  // 예시 구문들
+  const exampleKeywords = ["따스한", "햇살", "골목길", "비추고", "나뭇잎", "사이", "부는", "바람", "잔잔한", "소리", "냈다", "담벼락", "고양이", "졸고", "있었고", "창문", "너머", "김", "서린", "찻잔", "보였다", "조용한", "거리", "어울리지", "않게", "어디선가", "작은", "발소리", "들려오고", "고개", "들어", "소리", "난", "곳", "찾아", "두리번거리자", "멀리서", "낯선", "그림자", "발견했다"]; // 예시 단어들
 
   const [typingIndex, setTypingIndex] = useState(0);
   const [helloIndex, setHelloIndex] = useState(0);
@@ -123,7 +123,7 @@ export default function WritingTest() {
       const timer = setTimeout(() => {
         setDisplayText(typingText.slice(0, typingIndex + 1));
         setTypingIndex(typingIndex + 1);
-      }, 100);
+      }, 50);
       return () => clearTimeout(timer);
     }
 
@@ -142,7 +142,7 @@ export default function WritingTest() {
       const timer = setTimeout(() => {
         setDisplayText(hello.slice(0, helloIndex + 1));
         setHelloIndex(helloIndex + 1);
-      }, 40);
+      }, 35);
       return () => clearTimeout(timer);
     }
 
@@ -161,7 +161,7 @@ export default function WritingTest() {
       const timer = setTimeout(() => {
         setDisplayText(level.slice(0, levelIndex + 1));
         setLevelIndex(levelIndex + 1);
-      }, 40);
+      }, 35);
       return () => clearTimeout(timer);
     }
 
@@ -180,7 +180,7 @@ export default function WritingTest() {
       const timer = setTimeout(() => {
         setDisplayText(fullText.slice(0, fullTextIndex + 1));
         setFullTextIndex(fullTextIndex + 1);
-      }, 40);
+      }, 30);
 
       return () => clearTimeout(timer);
     }
@@ -204,7 +204,7 @@ export default function WritingTest() {
       const timer = setTimeout(() => {
         setPreTextTyping(predefinedText.slice(0, preTextIndex + 1));
         setPreTextIndex(preTextIndex + 1);
-      }, 40);  // 타이핑 속도 조절
+      }, 50);  // 타이핑 속도 조절
   
       return () => clearTimeout(timer);
     }
@@ -223,10 +223,8 @@ export default function WritingTest() {
           : originalText;
 
         const words = finalText.trim().split(/\s+/);
+        setText(finalText); // 최종 텍스트 반영
         setWordCount(words.length);
-
-        // 💡 추가: handleChange 호출로 UI 강제 갱신
-        handleChange({ target: { value: finalText } });
 
         setIsPreTextTyping(false);
         setIsInputDisabled(false);   // 타이핑 끝난 후 입력창 활성화
@@ -334,7 +332,7 @@ export default function WritingTest() {
       {/* 사용자가 글 작성하는 영역 */}
       <div style={{ width: "80%", textAlign: "left", marginBottom: "10px", fontSize: "18px" }}> 
         <h1>📝 짧은 글 짓기</h1>
-        <p>아래 프롬프트에 글을 작성해주세요 (100-150 단어) 다음 제시어를 포함해야 합니다:</p>
+        <p>아래 프롬프트에 한글로 이야기를 작성해주세요 (100-150 단어) 다음 제시어를 포함해야 합니다:</p>
         <p style={{ color: "red", fontWeight: "bold", fontSize: "20px" }}>{requiredWords.join(", ")}</p>
         <p className="mt-2">단어 수: {wordCount}</p>
 
@@ -354,15 +352,19 @@ export default function WritingTest() {
       </div>
 
       {/* ✨ Prolific ID 입력 필드 추가 */}
-      <div style={{ width: "80%", textAlign: "left", marginBottom: "10px" }}>
+      <div style={{ width: "80%", textAlign: "left", marginBottom: "10px"}}>
         <label style={{ fontWeight: "bold", marginRight: "10px" }}>SONA ID:</label>
         <input
           type="text"
           value={prolificId}
           onChange={(e) => setProlificId(e.target.value)}
           placeholder="Enter your ID"
-          style={{ padding: "5px", fontSize: "14px", width: "200px" }}
+          style={{ padding: "5px", fontSize: "14px", width: "200px", marginRight: "15px"}}
         />
+
+        <span style={{ fontSize: "16px", color: "gray" }}>
+          참여 확인을 위해 SONA ID를 입력해주세요.
+        </span>
       </div>
 
 
