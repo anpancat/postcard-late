@@ -82,7 +82,7 @@ export default function WritingTest() {
     
   
     // 🔥 필수 단어 포함 여부 확인
-    const rootWords = ["친구", "놀란", "강아지들"];
+    const rootWords = ["친구", "놀란", "강아지"];
     const missing = rootWords.filter((requiredRoot) =>
       !words.some((w) => w.replace(/[.,!?]/g, "").includes(requiredRoot)) // 🔥 문장부호 제거 후 비교
     );
