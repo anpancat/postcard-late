@@ -18,20 +18,17 @@ export default function WritingTest() {
   const [originalText, setOriginalText] = useState("");     // 기존 작성 글 보존
 
   const typingText = "...DraftMind가 입력중 입니다..."; //입력중
-  const hello = "안녕하세요! 저는 글쓰기를 도와주기 위해 만들어진 AI 'DraftMind'입니다. \n당신은 지금 이야기를 창작중인 것으로 보이네요. 당신의 글쓰기를 돕게 되어 기뻐요!"; // 인사말
-  const level = "통상적인 글쓰기 원칙과 스토리텔링 전략에 기반하여, 일반적인 글쓰기 상황에 적용될만한 도움을 제공해드릴게요."; // 개인화 수준 명시(낮은 개인화)
-  const fullText = "스토리를 더욱 몰입감 있게 만들기 위해서는 서두를 좀 더 자세히 묘사하는 것이 도움이 됩니다. 그렇게 하면 이야기의 몰입감이 올라갈 거예요.\n예시 문장을 드릴 테니 참고해보세요!"; // AI 글쓰기 제안문구
+  const hello = "안녕하세요! 저는 글쓰기를 도와주기 위해 만들어진 AI 'DraftMind' 이에요. \n당신은 지금 이야기를 창작중인 것으로 보이네요. 당신의 글쓰기를 돕게 되어 기뻐요!"; // 인사말
+  const fullText = "일반적인 글쓰기 원칙과 스토리텔링 전략에 기반해서 도움을 제공해드릴게요. \n글의 초반부에 배경을 자세히 묘사해서 이야기를 더욱 생생하게 만들어보세요. 이야기의 몰입감을 높이는 데에 도움이 될거에요.\n예시 문장을 제공해드릴게요!"; // AI 글쓰기 제안문구
   const examplePhrase = ["따스한 햇살이", "골목길을 비추고", "나뭇잎 사이로 부는 바람이", "잔잔한 소리를 냈다", "담벼락에는 고양이가 졸고 있었고", "창문 너머로", "김이 서린 찻잔이 보였다", "조용한 거리에", "어울리지 않게", "어디선가 작은 발소리가 들려오고", "고개를 들어", "소리가 난 곳을 찾아 두리번거리자", "멀리서 낯선 그림자를 발견했다"];  // 예시 구문들
   const exampleKeywords = ["따스한", "햇살", "골목길", "비추고", "나뭇잎", "사이", "부는", "바람", "잔잔한", "소리", "냈다", "담벼락", "고양이", "졸고", "있었고", "창문", "너머", "김", "서린", "찻잔", "보였다", "조용한", "거리", "어울리지", "않게", "어디선가", "작은", "발소리", "들려오고", "고개", "들어", "소리", "난", "곳", "찾아", "두리번거리자", "멀리서", "낯선", "그림자", "발견했다"]; // 예시 단어들
 
   const [typingIndex, setTypingIndex] = useState(0);
   const [helloIndex, setHelloIndex] = useState(0);
-  const [levelIndex, setLevelIndex] = useState(0);
   const [fullTextIndex, setFullTextIndex] = useState(0);
 
   const [isTypingTextComplete, setIsTypingTextComplete] = useState(false);
   const [isHelloTyping, setIsHelloTyping] = useState(false);
-  const [isLevelTyping, setIsLevelTyping] = useState(false);
   const [isFullTextTyping, setIsFullTextTyping] = useState(false);
   const [hasTriggeredOnce, setHasTriggeredOnce] = useState(false);
 
@@ -105,12 +102,10 @@ export default function WritingTest() {
       setDisplayText("");
       setTypingIndex(0);
       setHelloIndex(0);
-      setLevelIndex(0);
       setFullTextIndex(0);
 
       setIsTypingTextComplete(false);
       setIsHelloTyping(false);
-      setIsLevelTyping(false);
       setIsFullTextTyping(false);
 
       setHasTriggeredOnce(true);
@@ -150,29 +145,10 @@ export default function WritingTest() {
       setTimeout(() => {
         setDisplayText(""); // 개인화수준 타이핑 시작 전 초기화
         setIsHelloTyping(false);
-        setIsLevelTyping(true);
-      }, 2000);
-    }
-  }, [helloIndex, isHelloTyping]);
-
-  // 개인화 수준 타이핑효과
-  useEffect(() => {
-    if (isLevelTyping && levelIndex < level.length) {
-      const timer = setTimeout(() => {
-        setDisplayText(level.slice(0, levelIndex + 1));
-        setLevelIndex(levelIndex + 1);
-      }, 35);
-      return () => clearTimeout(timer);
-    }
-
-    if (levelIndex === level.length) {
-      setTimeout(() => {
-        setDisplayText(""); // 다음 메시지 시작 전 초기화
-        setIsLevelTyping(false);
         setIsFullTextTyping(true);
       }, 2000);
     }
-  }, [levelIndex, isLevelTyping]);
+  }, [helloIndex, isHelloTyping]);
 
   // AI 글쓰기 제안문구 타이핑효과
   useEffect(() => {
