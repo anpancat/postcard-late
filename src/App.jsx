@@ -1,4 +1,4 @@
-import WritingTest from "./ko-WritingTest";
+import WritingTest from "./postcard_late";
 
 function App() {
   return <WritingTest/>;
