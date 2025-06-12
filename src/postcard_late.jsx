@@ -502,7 +502,7 @@ export default function WritingTest() {
                 .replaceAll(", ", ",\u00A0") // 쉼표 뒤 공백을 불간섭 공백으로 대체하여 줄바꿈 방지
                 .split("\n")
                 .map((line, index) => (
-                  <p key={index} style={{ fontWeight: "bold", fontSize: "15px", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
+                  <p key={index} style={{ fontWeight: "bold", fontSize: "16px", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
                     {line}
                   </p>
                 ))}
